@@ -100,7 +100,7 @@ public class ReservationService(IReservationRepository reservationRepo, IRoomRep
             return (false, "Reservation check-in should be before check-out");
         }
 
-        var overlapped = await _reservation_repo.FindOverlaps(CheckIn, CheckOut, roomId, ct);
+        var overlapped = await _reservation_repo.HasOverlaps(CheckIn, CheckOut, roomId, ct);
 
         if (overlapped)
         {

@@ -63,7 +63,7 @@ class ReservationRepository : IReservationRepository
         return true;
     }
 
-    public async Task<bool> FindOverlaps(DateTime CheckIn, DateTime CheckOut, int roomId, CancellationToken ct)
+    public async Task<bool> HasOverlaps(DateTime CheckIn, DateTime CheckOut, int roomId, CancellationToken ct)
     {
         var overlapped = await _db.Reservations.AnyAsync(r => r.RoomId == roomId && CheckIn < r.CheckOut && CheckOut > r.CheckIn, ct);
         if (overlapped is false)
