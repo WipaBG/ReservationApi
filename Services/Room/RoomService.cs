@@ -49,7 +49,6 @@ public class RoomService : IRoomService
             Number = req.Number.Trim(),
             Capacity = req.Capacity,
             Type = req.Type.Trim(),
-            IsActive = true,
         };
 
         var created = await _repo.CreateAsync(room, ct);
@@ -75,7 +74,6 @@ public class RoomService : IRoomService
         room.Number = req.Number.Trim();
         room.Capacity = req.Capacity;
         room.Type = req.Type.Trim();
-        room.IsActive = req.IsActive;
 
         var updated = await _repo.UpdateAsync(room, ct);
         return updated ? (true, null) : (false, "Update failed");
@@ -86,6 +84,6 @@ public class RoomService : IRoomService
         return _repo.DeleteAsync(id, ct);
     }
 
-    private static RoomResponse ToResponse(Room r) => new(r.Id, r.Number, r.Capacity, r.Type, r.IsActive);
+    private static RoomResponse ToResponse(Room r) => new(r.Id, r.Number, r.Capacity, r.Type);
 
 }

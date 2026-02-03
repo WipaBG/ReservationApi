@@ -43,11 +43,11 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         {
             Id = Guid.NewGuid(),
             RoomNumber = roomNumber,
-            Status = ReservationStatus.Pending,
             Details = req.Details,
             CheckIn = req.CheckIn,
             CheckOut = req.CheckOut,
         };
+
 
         var rsrv = await _repo.CreateReservation(reservation, ct);
 
@@ -74,7 +74,6 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         }
 
         reservation.RoomNumber = req.RoomNumber.Trim();
-        reservation.Status = req.Status;
         reservation.CheckIn = req.CheckIn;
         reservation.CheckOut = req.CheckOut;
 
@@ -97,8 +96,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             rsrv.CheckIn,
             rsrv.CheckOut,
             rsrv.RoomNumber,
-            rsrv.Details,
-            rsrv.Status
+            rsrv.Details
         );
     }
 

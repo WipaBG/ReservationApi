@@ -9,14 +9,12 @@ public record CreateRoomRequest(
 public record UpdateRoomRequest(
     string Number,
     int Capacity,
-    string Type,
-    bool IsActive
+    string Type
 );
 
 public record RoomResponse(
     Guid Id,
     string Number,
     int Capacity,
-    string Type,
-    bool IsActive
+    string Type
 );

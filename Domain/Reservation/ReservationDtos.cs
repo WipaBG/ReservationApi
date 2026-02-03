@@ -13,8 +13,7 @@ public record UpdateReservationRequest
     DateTime CheckIn,
     DateTime CheckOut,
     string RoomNumber,
-    string Details,
-    ReservationStatus Status
+    string Details
 );
 
 
@@ -24,6 +23,5 @@ public record ReservationResponse(
     DateTime CheckIn,
     DateTime CheckOut,
     string RoomNumber,
-    string Details,
-    ReservationStatus Status
+    string Details
 );

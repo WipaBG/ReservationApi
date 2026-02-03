@@ -7,12 +7,5 @@ public class Reservation
     public DateTime CheckOut { get; set; }
     public string RoomNumber { get; set; } = "";
     public string Details { get; set; } = string.Empty;
-    public ReservationStatus Status { get; set; } = ReservationStatus.Pending;
 }
 
-public enum ReservationStatus
-{
-    Confirmed,
-    Pending,
-    Cancelled
-}
