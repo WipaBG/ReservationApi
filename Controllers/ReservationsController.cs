@@ -31,7 +31,7 @@ public class ReservationController(IReservationService service) : ControllerBase
         var (ok, error, reservation) = await _service.CreateAsync(req, ct);
         if (!ok)
         {
-            if (error == "reservation already exists")
+            if (error == "Reservation already exists")
             {
                 return Conflict(new { message = error });
             }
