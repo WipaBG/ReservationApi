@@ -50,7 +50,6 @@ public class RoomRepository : IRoomRepository
         existing.Number = room.Number;
         existing.Capacity = room.Capacity;
         existing.Type = room.Type;
-        existing.IsActive = room.IsActive;
 
         await _db.SaveChangesAsync(ct);
         return true;

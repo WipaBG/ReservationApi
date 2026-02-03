@@ -50,7 +50,6 @@ class ReservationRepository : IReservationRepository
         existing.CheckIn = reservation.CheckIn;
         existing.CheckOut = reservation.CheckOut;
         existing.Details = reservation.Details;
-        existing.Status = reservation.Status;
 
         await _db.SaveChangesAsync(ct);
         return true;
