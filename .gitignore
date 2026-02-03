@@ -1,0 +1,54 @@
+# =====================
+# .NET build outputs
+# =====================
+bin/
+obj/
+out/
+**/[Dd]ebug*/
+**/[Rr]elease*/
+
+# =====================
+# VS Code (keep shared settings, ignore local)
+# =====================
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+
+# If you use workspace files
+*.code-workspace
+
+# =====================
+# User/IDE caches
+# =====================
+.vs/
+.idea/
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# =====================
+# Logs / temp
+# =====================
+*.log
+*.tmp
+TestResults/
+*.trx
+coverage*/
+**/coverage*
+
+# =====================
+# Secrets / local config
+# =====================
+.env
+.env.*
+appsettings.Development.json
+appsettings.Local.json
+
+# =====================
+# OS junk
+# =====================
+.DS_Store
+Thumbs.db
+Desktop.ini
