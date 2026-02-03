@@ -64,7 +64,7 @@ public class ReservationController(IReservationService service) : ControllerBase
 
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         var deleted = await _service.DeleteAsync(id, ct);
