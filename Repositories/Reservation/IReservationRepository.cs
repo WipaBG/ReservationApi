@@ -10,5 +10,5 @@ public interface IReservationRepository
     Task<bool> UpdateAsync(Reservation reservation, CancellationToken ct);
     Task<bool> DeleteAsync(int id, CancellationToken ct);
 
-    Task<bool> FindOverlaps(DateTime CheckIn, DateTime CheckOut, int roomId, CancellationToken ct);
+    Task<bool> HasOverlaps(DateTime CheckIn, DateTime CheckOut, int roomId, CancellationToken ct);
 }
