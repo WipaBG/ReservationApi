@@ -5,11 +5,13 @@ public record CreateReservationRequest
     DateTime CheckIn,
     DateTime CheckOut,
     string RoomNumber,
+    int RoomId,
     string Details
 );
 
 public record UpdateReservationRequest
 (
+    int RoomId,
     DateTime CheckIn,
     DateTime CheckOut,
     string RoomNumber,
@@ -22,6 +24,6 @@ public record ReservationResponse(
     int Id,
     DateTime CheckIn,
     DateTime CheckOut,
-    string RoomNumber,
+    int RoomId,
     string Details
 );

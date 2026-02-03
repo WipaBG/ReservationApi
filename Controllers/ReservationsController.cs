@@ -17,8 +17,8 @@ public class ReservationController(IReservationService service) : ControllerBase
         return Ok(rooms);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ReservationResponse>> GetById(Guid id, CancellationToken ct)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<ReservationResponse>> GetById(int id, CancellationToken ct)
     {
         var reservation = await _service.GetByIdAsync(id, ct);
         if (reservation is null) return NotFound(new { message = "Reservation not found" });
@@ -40,8 +40,8 @@ public class ReservationController(IReservationService service) : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = reservation!.Id }, reservation);
     }
 
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateReservationRequest req, CancellationToken ct)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateReservationRequest req, CancellationToken ct)
     {
         var (ok, error) = await _service.UpdateAsync(id, req, ct);
         if (!ok)
@@ -65,7 +65,7 @@ public class ReservationController(IReservationService service) : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         var deleted = await _service.DeleteAsync(id, ct);
         if (!deleted)

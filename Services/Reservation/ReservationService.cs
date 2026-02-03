@@ -12,7 +12,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         return reservations.Select(ToResponse).ToList();
     }
 
-    public async Task<ReservationResponse?> GetByIdAsync(Guid Id, CancellationToken ct)
+    public async Task<ReservationResponse?> GetByIdAsync(int Id, CancellationToken ct)
     {
         var reservation = await _repo.GetById(Id, ct);
         return reservation is null ? null : ToResponse(reservation);
@@ -37,12 +37,10 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             return (false, "Reservation already exists", null);
         }
 
-        var roomNumber = req.RoomNumber.Trim();
 
         var reservation = new Reservation
         {
-            Id = Guid.NewGuid(),
-            RoomNumber = roomNumber,
+            RoomId = req.RoomId,
             Details = req.Details,
             CheckIn = req.CheckIn,
             CheckOut = req.CheckOut,
@@ -54,7 +52,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         return (true, null, rsrv);
     }
 
-    public async Task<(bool ok, string? error)> UpdateAsync(Guid Id, UpdateReservationRequest req, CancellationToken ct)
+    public async Task<(bool ok, string? error)> UpdateAsync(int Id, UpdateReservationRequest req, CancellationToken ct)
     {
         var reservation = await _repo.GetById(Id, ct);
 
@@ -73,7 +71,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             return (false, "check-in date should be before check-out date");
         }
 
-        reservation.RoomNumber = req.RoomNumber.Trim();
+        reservation.RoomId = req.RoomId;
         reservation.CheckIn = req.CheckIn;
         reservation.CheckOut = req.CheckOut;
 
@@ -81,7 +79,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         return updated ? (true, null) : (false, "error");
     }
 
-    public async Task<bool> DeleteAsync(Guid Id, CancellationToken ct)
+    public async Task<bool> DeleteAsync(int Id, CancellationToken ct)
     {
         return await _repo.DeleteAsync(Id, ct);
     }
@@ -95,7 +93,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             rsrv.Id,
             rsrv.CheckIn,
             rsrv.CheckOut,
-            rsrv.RoomNumber,
+            rsrv.RoomId,
             rsrv.Details
         );
     }

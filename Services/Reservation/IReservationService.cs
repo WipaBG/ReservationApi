@@ -6,13 +6,13 @@ public interface IReservationService
 {
     Task<List<ReservationResponse>> GetAllAsync(CancellationToken ct);
     //GetSingle
-    Task<ReservationResponse?> GetByIdAsync(Guid id, CancellationToken ct);
+    Task<ReservationResponse?> GetByIdAsync(int id, CancellationToken ct);
     //Create
 
     Task<(bool ok, string? error, Reservation? reservation)> CreateAsync(CreateReservationRequest req, CancellationToken ct);
     //Update
-    Task<(bool ok, string? error)> UpdateAsync(Guid Id, UpdateReservationRequest req, CancellationToken ct);
+    Task<(bool ok, string? error)> UpdateAsync(int Id, UpdateReservationRequest req, CancellationToken ct);
     //Delete
-    Task<bool> DeleteAsync(Guid id, CancellationToken ct);
+    Task<bool> DeleteAsync(int id, CancellationToken ct);
 }
 

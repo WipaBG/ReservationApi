@@ -24,8 +24,8 @@ public class RoomsController : ControllerBase
     }
 
     // GET /api/rooms/{id}
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult<RoomResponse>> GetById(Guid id, CancellationToken ct)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<RoomResponse>> GetById(int id, CancellationToken ct)
     {
         var room = await _service.GetByIdAsync(id, ct);
         if (room is null) return NotFound(new { message = "Room not found" });
@@ -43,8 +43,8 @@ public class RoomsController : ControllerBase
     }
 
     // PUT /api/rooms/{id}
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateRoomRequest req, CancellationToken ct)
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateRoomRequest req, CancellationToken ct)
     {
         var (ok, error) = await _service.UpdateAsync(id, req, ct);
         if (!ok)
@@ -58,7 +58,7 @@ public class RoomsController : ControllerBase
 
     // DELETE /api/rooms/{id}
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    public async Task<IActionResult> Delete(int id, CancellationToken ct)
     {
         var deleted = await _service.DeleteAsync(id, ct);
         if (!deleted) return NotFound(new { message = "Room not found" });
