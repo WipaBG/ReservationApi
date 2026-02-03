@@ -18,7 +18,7 @@ public class RoomService : IRoomService
         return rooms.Select(ToResponse).ToList();
     }
 
-    public async Task<RoomResponse?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<RoomResponse?> GetByIdAsync(int id, CancellationToken ct)
     {
         var room = await _repo.GetByIdAsync(id, ct);
         return room is null ? null : ToResponse(room);
@@ -45,7 +45,6 @@ public class RoomService : IRoomService
 
         var room = new Room
         {
-            Id = Guid.NewGuid(),
             Number = req.Number.Trim(),
             Capacity = req.Capacity,
             Type = req.Type.Trim(),
@@ -55,7 +54,7 @@ public class RoomService : IRoomService
         return (true, null, ToResponse(created));
     }
 
-    public async Task<(bool ok, string? error)> UpdateAsync(Guid id, UpdateRoomRequest req, CancellationToken ct)
+    public async Task<(bool ok, string? error)> UpdateAsync(int id, UpdateRoomRequest req, CancellationToken ct)
     {
         var room = await _repo.GetByIdAsync(id, ct);
         if (room is null) return (false, "Room not found");
@@ -79,7 +78,7 @@ public class RoomService : IRoomService
         return updated ? (true, null) : (false, "Update failed");
     }
 
-    public Task<bool> DeleteAsync(Guid id, CancellationToken ct)
+    public Task<bool> DeleteAsync(int id, CancellationToken ct)
     {
         return _repo.DeleteAsync(id, ct);
     }

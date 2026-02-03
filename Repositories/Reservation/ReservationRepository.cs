@@ -18,7 +18,7 @@ class ReservationRepository : IReservationRepository
         return await _db.Reservations.AsNoTracking().OrderBy(r => r.CheckIn).ToListAsync(ct);
     }
 
-    public async Task<Reservation?> GetById(Guid id, CancellationToken ct)
+    public async Task<Reservation?> GetById(int id, CancellationToken ct)
     {
         return await _db.Reservations.FindAsync([id], ct);
     }
@@ -27,8 +27,7 @@ class ReservationRepository : IReservationRepository
     {
         var reservation = await _db.Reservations.FirstOrDefaultAsync(r =>
         r.CheckIn == CheckIn &&
-        r.CheckOut == CheckOut &&
-        r.RoomNumber == room,
+        r.CheckOut == CheckOut,
         ct);
         await _db.SaveChangesAsync(ct);
         return reservation;
@@ -46,7 +45,6 @@ class ReservationRepository : IReservationRepository
         var existing = await _db.Reservations.FirstOrDefaultAsync(r => r.Id == reservation.Id, ct);
         if (existing is null) return false;
 
-        existing.RoomNumber = reservation.RoomNumber;
         existing.CheckIn = reservation.CheckIn;
         existing.CheckOut = reservation.CheckOut;
         existing.Details = reservation.Details;
@@ -55,7 +53,7 @@ class ReservationRepository : IReservationRepository
         return true;
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
+    public async Task<bool> DeleteAsync(int id, CancellationToken ct)
     {
         var existing = await _db.Reservations.FirstOrDefaultAsync(r => r.Id == id, ct);
         if (existing is null) return false;

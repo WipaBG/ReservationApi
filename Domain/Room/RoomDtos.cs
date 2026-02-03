@@ -13,7 +13,7 @@ public record UpdateRoomRequest(
 );
 
 public record RoomResponse(
-    Guid Id,
+    int Id,
     string Number,
     int Capacity,
     string Type

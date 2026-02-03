@@ -19,7 +19,7 @@ public record UpdateReservationRequest
 
 
 public record ReservationResponse(
-    Guid Id,
+    int Id,
     DateTime CheckIn,
     DateTime CheckOut,
     string RoomNumber,

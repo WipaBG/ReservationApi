@@ -19,7 +19,7 @@ public class RoomRepository : IRoomRepository
         return await _db.Rooms.AsNoTracking().OrderBy(r => r.Number).ToListAsync(ct);
     }
 
-    public async Task<Room?> GetByIdAsync(Guid id, CancellationToken ct)
+    public async Task<Room?> GetByIdAsync(int id, CancellationToken ct)
     {
         return await _db.Rooms.FindAsync(new object[] { id }, ct);
     }
@@ -55,7 +55,7 @@ public class RoomRepository : IRoomRepository
         return true;
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken ct)
+    public async Task<bool> DeleteAsync(int id, CancellationToken ct)
     {
         var existing = await _db.Rooms.FirstOrDefaultAsync(r => r.Id == id, ct);
         if (existing is null) return false;
