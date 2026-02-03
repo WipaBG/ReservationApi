@@ -22,17 +22,6 @@ public class ReservationService(IReservationRepository reservationRepo, IRoomRep
 
     public async Task<(bool ok, string? error, Reservation? reservation)> CreateAsync(CreateReservationRequest req, CancellationToken ct)
     {
-        if (req.RoomId <= 0)
-        {
-            return (false, "Room ID is required", null);
-        }
-
-        var room = await _room_repo.GetByIdAsync(req.RoomId, ct);
-
-        if (room is null)
-        {
-            return (false, "Room not found", null);
-        }
 
         var existing = await _reservation_repo.GetByReservationDetails(req.CheckIn, req.CheckOut, req.RoomId, ct);
 
@@ -41,16 +30,11 @@ public class ReservationService(IReservationRepository reservationRepo, IRoomRep
             return (false, "Reservation already exists", null);
         }
 
-        if (req.CheckIn >= req.CheckOut)
-        {
-            return (false, "Reservation check-in should be before check-out", null);
-        }
+        var (status, error) = await ValidateReservation(req.RoomId, req.CheckIn, req.CheckOut, ct);
 
-        var overlapped = await _reservation_repo.FindOverlaps(req.CheckIn, req.CheckOut, req.RoomId, ct);
-
-        if (overlapped)
+        if (status == false)
         {
-            return (false, "Room is already reserved for this period", null);
+            return (false, error, null);
         }
 
         var reservation = new Reservation
@@ -76,17 +60,15 @@ public class ReservationService(IReservationRepository reservationRepo, IRoomRep
             return (false, "reservation does not exist");
         }
 
-        if (string.IsNullOrWhiteSpace(req.RoomNumber))
-        {
-            return (false, "room number is required");
-        }
+        var (status, error) = await ValidateReservation(req.RoomId, req.CheckIn, req.CheckOut, ct);
 
-        if (req.CheckIn >= req.CheckOut)
+        if (status == false)
         {
-            return (false, "check-in date should be before check-out date");
+            return (false, error);
         }
 
         reservation.RoomId = req.RoomId;
+        reservation.Details = req.Details;
         reservation.CheckIn = req.CheckIn;
         reservation.CheckOut = req.CheckOut;
 
@@ -99,9 +81,34 @@ public class ReservationService(IReservationRepository reservationRepo, IRoomRep
         return await _reservation_repo.DeleteAsync(Id, ct);
     }
 
+    private async Task<(bool status, string? error)> ValidateReservation(int roomId, DateTime CheckIn, DateTime CheckOut, CancellationToken ct)
+    {
+        if (roomId <= 0)
+        {
+            return (false, "Room ID is required");
+        }
 
+        var room = await _room_repo.GetByIdAsync(roomId, ct);
 
+        if (room is null)
+        {
+            return (false, "Room not found");
+        }
 
+        if (CheckIn >= CheckOut)
+        {
+            return (false, "Reservation check-in should be before check-out");
+        }
+
+        var overlapped = await _reservation_repo.FindOverlaps(CheckIn, CheckOut, roomId, ct);
+
+        if (overlapped)
+        {
+            return (false, "Room is already reserved for this period");
+        }
+
+        return (true, null);
+    }
     private static ReservationResponse ToResponse(Reservation rsrv)
     {
         return new ReservationResponse(
