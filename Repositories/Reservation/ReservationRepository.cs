@@ -23,7 +23,7 @@ class ReservationRepository : IReservationRepository
         return await _db.Reservations.FindAsync([id], ct);
     }
 
-    public async Task<Reservation?> GetByReservationDetails(DateTime CheckIn, DateTime CheckOut, string room, CancellationToken ct)
+    public async Task<Reservation?> GetByReservationDetails(DateTime CheckIn, DateTime CheckOut, int roomId, CancellationToken ct)
     {
         var reservation = await _db.Reservations.FirstOrDefaultAsync(r =>
         r.CheckIn == CheckIn &&
@@ -63,5 +63,14 @@ class ReservationRepository : IReservationRepository
         return true;
     }
 
+    public async Task<bool> FindOverlaps(DateTime CheckIn, DateTime CheckOut, int roomId, CancellationToken ct)
+    {
+        var overlapped = await _db.Reservations.AnyAsync(r => r.RoomId == roomId && CheckIn < r.CheckOut && CheckOut > r.CheckIn, ct);
+        if (overlapped is false)
+        {
+            return overlapped;
+        }
+        return overlapped;
+    }
 
 }

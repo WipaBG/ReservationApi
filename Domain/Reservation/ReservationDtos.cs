@@ -4,7 +4,6 @@ public record CreateReservationRequest
 (
     DateTime CheckIn,
     DateTime CheckOut,
-    string RoomNumber,
     int RoomId,
     string Details
 );
